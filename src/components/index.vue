@@ -250,7 +250,7 @@ export default {
 /* 侧边栏 */
 .el-aside {
   background: #272d34;
-  min-height: 980px;
+  min-height: 100vh;
 }
 .el-menu-vertical {
   border-right: 0;
