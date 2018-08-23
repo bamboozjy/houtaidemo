@@ -150,7 +150,7 @@
 								<li class="operate">
 										<div class="user" >
 											<img src="../assets/img/logo.jpg" alt="">
-											<span> 张三</span>
+											<span> {{username}}</span>
 											<i class="icon iconfont icon-unfold"></i>
 										</div>
 										<div class="prove">
@@ -180,7 +180,8 @@ export default {
   data() {
     return {
       defaultActive: "/index/home",
-      iscollapse: false
+      iscollapse: false,
+      username: ""
     };
   },
   methods: {
@@ -226,14 +227,61 @@ export default {
             });
         })
         .catch(e => {});
+    },
+    setActiveBg() {
+      var router = this.$router.currentRoute.fullPath;
+      // console.log(router);
+      var arr = router.split("?"); //去除参数
+      router = arr[0];
+      var arr2 = router.split("/");
+      router = arr2[arr2.length - 1];
+      // console.log(router);
+      //刷新时导航激活的样式跳到正确的地方
+      if (router === "home") {
+        this.defaultActive = "/index/home";
+      } else if (router === "plate") {
+        this.defaultActive = "/index/plate";
+      } else if (router === "activity") {
+        this.defaultActive = "/index/activity";
+      } else if (router === "classify") {
+        this.defaultActive = "/index/classify";
+      } else if (router === "goods") {
+        this.defaultActive = "/index/goods";
+      } else if (router === "sort") {
+        this.defaultActive = "/index/sort";
+      } else if (router === "freight") {
+        this.defaultActive = "/index/freight";
+      } else if (router === "users") {
+        this.defaultActive = "/index/users";
+      } else if (router === "orders") {
+        this.defaultActive = "/index/orders";
+      } else if (router === "orderset") {
+        this.defaultActive = "/index/orderset";
+      } else if (router === "activityorder") {
+        this.defaultActive = "/index/activityorder";
+      } else if (router === "material") {
+        this.defaultActive = "/index/material";
+      } else if (router === "customservice") {
+        this.defaultActive = "/index/customservice";
+      } else if (router === "miniprograms") {
+        this.defaultActive = "/index/miniprograms";
+      } else if (router === "qrcode") {
+        this.defaultActive = "/index/qrcode";
+      } else if (router === "homeset") {
+        this.defaultActive = "/index/homeset";
+      } else if (router === "sectionmanage") {
+        this.defaultActive = "/index/sectionmanage";
+      } else if (router === "topicmanage") {
+        this.defaultActive = "/index/topicmanage";
+      }
     }
   },
+  beforeMount() {
+    this.setActiveBg(); //刷新
+    var userMsg = JSON.parse(localStorage.getItem("userMsg"));
+    this.username = userMsg.shop_applet_name;
+  },
   mounted() {
-    // console.log(this.$api);
-    // var operate = document.querySelector(".operate");
-    // operate.onmousehover = function() {
-    //   this.style.display = "block";
-    // };
     $(".operate").hover(
       function() {
         $(".operate .prove").css("display", "block");
@@ -242,6 +290,9 @@ export default {
         $(".operate .prove").css("display", "none");
       }
     );
+  },
+  updated() {
+    this.setActiveBg(); //跳转页面更新时
   }
 };
 </script>
@@ -360,9 +411,10 @@ export default {
   display: flex;
   align-items: center;
 }
-.header span {
-  color: #666;
-  font-size: 12px;
+.header .operate span {
+  color: #333;
+  display: block;
+  min-width: 50px;
 }
 .header img {
   width: 30px;
@@ -374,6 +426,7 @@ export default {
 /* 右边主体部分 */
 .el-main {
   padding: 0 !important;
+  background: #f7f7f7;
 }
 /* 右边底部 */
 .foot {
